@@ -1,0 +1,15 @@
+---
+galaxy_info:
+  author: Nafallo Bjälevik
+  role_name: metareleases
+  description: Manage metadata for Ubuntu Release Upgrader
+  company: Volvo Cars Corporation
+  license: GPLv2
+  min_ansible_version: 2.2
+  platforms:
+    - name: Ubuntu
+  galaxy_tags:
+    - ubuntu
+    - release
+    - upgrader
+dependencies: []

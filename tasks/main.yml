@@ -1,0 +1,17 @@
+---
+- name: Ensure created root directory
+  file:
+    path: "{{ metareleases_path }}"
+    owner: "{{ metareleases_owner }}"
+    group: "{{ metareleases_group }}"
+    mode: 0755
+    state: directory
+
+- name: Ensure metarelease files
+  template:
+    src: meta-release.j2
+    dest: "{{ metareleases_path + '/' + item }}"
+    owner: "{{ metareleases_owner }}"
+    group: "{{ metareleases_group }}"
+    mode: 0644
+  loop: "{{ metareleases_files }}"

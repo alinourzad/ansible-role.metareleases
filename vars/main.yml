@@ -1,0 +1,8 @@
+---
+metareleases_files:
+  - meta-release
+  - meta-release-development
+  - meta-release-proposed
+  - meta-release-lts
+  - meta-release-lts-development
+  - meta-release-lts-proposed
