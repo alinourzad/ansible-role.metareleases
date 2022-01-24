@@ -5,7 +5,7 @@ metareleases_group: www-data
 
 metareleases_info:
   - name: Trusty Tahr
-    version: 14.04.6 LTS
+    version: '14.04.6 LTS'
     date: Thu, 17 Apr 2014 14:04:00 UTC
     support: true
   - name: Utopic Unicorn
@@ -21,7 +21,7 @@ metareleases_info:
     date: Thu, 22 October 2015 15:10:00 UTC
     support: false
   - name: Xenial Xerus
-    version: 16.04.7 LTS
+    version: '16.04.7 LTS'
     date: Thu, 21 April 2016 16:04:00 UTC
     support: true
   - name: Yakkety Yak
@@ -37,7 +37,7 @@ metareleases_info:
     date: Thu, 19 October 2017 17:10:00 UTC
     support: false
   - name: Bionic Beaver
-    version: 18.04.5 LTS
+    version: '18.04.6 LTS'
     date: Thu, 26 April 2018 18:04:00 UTC
     support: true
   - name: Cosmic Cuttlefish
@@ -53,16 +53,24 @@ metareleases_info:
     date: Thu, 17 October 2019 19:10:00 UTC
     support: false
   - name: Focal Fossa
-    version: 20.04.1 LTS
+    version: '20.04.3 LTS'
     date: Thu, 23 April 2020 20:04:00 UTC
     support: true
   - name: Groovy Gorilla
     version: '20.10'
     date: Thu, 22 October 2020 20:22:00 UTC
-    support: true
+    support: false
   - name: Hirsute Hippo
     version: '21.04'
     date: Thu, 22 April 2021 21:04:00 UTC
+    support: false
+  - name: Impish Indri
+    version: '21.10'
+    date: Thu, 14 October 2021 21:10:00 UTC
+    support: true
+  - name: Jammy Jellyfish
+    version: '22.04 LTS'
+    date: Thu, 21 April 2022 22:04:00 UTC
     support: devel
 
 metareleases: []
