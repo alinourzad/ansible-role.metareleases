@@ -14,11 +14,15 @@
 {% else %}
 {%   set metareleases = [metareleases[-2], metareleases[-1]] %}
 {% endif %}
-{% set dist_pocket = 'proposed' if 'proposed' in item.split('-') else 'updates' %}
 {% for dist in metareleases %}
 {%   set dist_info = metareleases_info | to_json | from_json | json_query('[?starts_with(name, `' + dist.name | capitalize + '`)]') | first %}
 {%   set dist_support = dist.support if dist.support is defined else dist_info.support %}
 {%   set dist_mirror = 'archive.ubuntu.com' if dist_info.support | bool or dist_support == 'devel' else 'old-releases.ubuntu.com' %}
+{%   if dist_support == 'devel' %}
+{%     set dist_pocket = None %}
+{%   else %}
+{%     set dist_pocket = '-proposed' if 'proposed' in item.split('-') else '-updates' %}
+{%   endif %}
 Dist: {{ dist.name }}
 Name: {{ dist_info.name }}
 Version: {{ dist_info.version }}
@@ -27,11 +31,11 @@ Supported: {{ dist_support | bool | int }}
 Description: This is the {{ dist_info.version }} release
 Release-File: http://{{ dist_mirror }}/ubuntu/dists/{{ dist.name }}/Release
 {%   if dist_support | bool or dist_support == 'devel' %}
-ReleaseNotes: http://{{ dist_mirror }}/ubuntu/dists/{{ dist.name }}-{{ dist_pocket }}/main/dist-upgrader-all/current/ReleaseAnnouncement
-ReleaseNotesHtml: http://{{ dist_mirror }}/ubuntu/dists/{{ dist.name }}-{{ dist_pocket }}/main/dist-upgrader-all/current/ReleaseAnnouncement.html
+ReleaseNotes: http://{{ dist_mirror }}/ubuntu/dists/{{ dist.name }}{{ dist_pocket }}/main/dist-upgrader-all/current/ReleaseAnnouncement
+ReleaseNotesHtml: http://{{ dist_mirror }}/ubuntu/dists/{{ dist.name }}{{ dist_pocket }}/main/dist-upgrader-all/current/ReleaseAnnouncement.html
 {%   else %}
 ReleaseNotes: http://changelogs.ubuntu.com/EOLReleaseAnnouncement
 {%   endif %}
-UpgradeTool: http://{{ dist_mirror }}/ubuntu/dists/{{ dist.name }}-{{ dist_pocket }}/main/dist-upgrader-all/current/{{ dist.name }}.tar.gz
-UpgradeToolSignature: http://{{ dist_mirror }}/ubuntu/dists/{{ dist.name }}-{{ dist_pocket }}/main/dist-upgrader-all/current/{{ dist.name }}.tar.gz.gpg{{ '' if loop.last else '\n\n' }}
+UpgradeTool: http://{{ dist_mirror }}/ubuntu/dists/{{ dist.name }}{{ dist_pocket }}/main/dist-upgrader-all/current/{{ dist.name }}.tar.gz
+UpgradeToolSignature: http://{{ dist_mirror }}/ubuntu/dists/{{ dist.name }}{{ dist_pocket }}/main/dist-upgrader-all/current/{{ dist.name }}.tar.gz.gpg{{ '' if loop.last else '\n\n' }}
 {%- endfor -%}
