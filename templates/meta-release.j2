@@ -1,12 +1,12 @@
 {% if 'lts' in item.split('-') %}
-{%   for dist in metareleases_info | to_json | from_json | json_query('[?!ends_with(version, `LTS`)].{name: name}') | default([]) %}
+{%   for dist in metareleases_info | rejectattr('version', 'match', '^.*LTS$') %}
 {%     if dist.name.split(' ')[0] | lower in metareleases | map(attribute='name') | list %}
 {%       set metareleases = metareleases.remove({'name': dist.name.split(' ')[0] | lower}) %}
 {%     endif %}
 {%   endfor %}
 {% endif %}
 {% if 'development' not in item.split('-') %}
-{%   for dist in metareleases and metareleases_info | to_json | from_json | json_query('[?support == `devel`]') | default([]) %}
+{%   for dist in metareleases and metareleases_info | selectattr('support', 'match', '^devel$') | default([]) %}
 {%     if dist.name.split(' ')[0] | lower in metareleases | map(attribute='name') | list %}
 {%       set metareleases = metareleases.remove({'name': dist.name.split(' ')[0] | lower}) %}
 {%     endif %}
@@ -15,7 +15,7 @@
 {%   set metareleases = [metareleases[-2], metareleases[-1]] %}
 {% endif %}
 {% for dist in metareleases %}
-{%   set dist_info = metareleases_info | to_json | from_json | json_query('[?starts_with(name, `' + dist.name | capitalize + '`)]') | first %}
+{%   set dist_info = metareleases_info | selectattr('name', 'match', dist.name | capitalize) | first %}
 {%   set dist_support = dist.support if dist.support is defined else dist_info.support %}
 {%   set dist_mirror = 'archive.ubuntu.com' if dist_info.support | bool or dist_support == 'devel' else 'old-releases.ubuntu.com' %}
 {%   if dist_support == 'devel' %}
