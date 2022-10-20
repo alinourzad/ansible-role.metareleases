@@ -8,7 +8,7 @@
 {% if 'development' not in item.split('-') %}
 {%   for dist in metareleases.copy() | union(metareleases_info) | selectattr('support', 'eq', 'devel') %}
 {%     if dist.name.split(' ')[0] | lower in metareleases | map(attribute='name') | list %}
-{{ metareleases.remote(dist) }}
+{{ metareleases.remove(dist) }}
 {%-    endif %}
 {%   endfor %}
 {% else %}
