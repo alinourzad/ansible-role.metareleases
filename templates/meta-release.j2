@@ -1,15 +1,15 @@
 {% if 'lts' in item.split('-') %}
-{%   for dist in metareleases_info | rejectattr('version', 'match', '^.*LTS$') %}
-{%     if dist.name.split(' ')[0] | lower in metareleases | map(attribute='name') | list %}
-{%       set metareleases = metareleases.remove({'name': dist.name.split(' ')[0] | lower}) %}
-{%     endif %}
+{%   for dist in metareleases.copy() %}
+{%     if dist.name in metareleases_info | rejectattr('version', 'match', '^.*LTS$') | map(attribute='name') | map('split', ' ') | map('first') | map('lower') %}
+{{ metarelease.remove(dist) }}
+{%-    endif %}
 {%   endfor %}
 {% endif %}
 {% if 'development' not in item.split('-') %}
-{%   for dist in metareleases and metareleases_info | selectattr('support', 'match', '^devel$') | default([]) %}
+{%   for dist in metareleases.copy() | union(metareleases_info) | selectattr('support', 'eq', 'devel') %}
 {%     if dist.name.split(' ')[0] | lower in metareleases | map(attribute='name') | list %}
-{%       set metareleases = metareleases.remove({'name': dist.name.split(' ')[0] | lower}) %}
-{%     endif %}
+{{ metarelease.remote(dist) }}
+{%-    endif %}
 {%   endfor %}
 {% else %}
 {%   set metareleases = [metareleases[-2], metareleases[-1]] %}
@@ -17,7 +17,7 @@
 {% for dist in metareleases %}
 {%   set dist_info = metareleases_info | selectattr('name', 'match', dist.name | capitalize) | first %}
 {%   set dist_support = dist.support if dist.support is defined else dist_info.support %}
-{%   set dist_mirror = 'archive.ubuntu.com' if dist_info.support | bool or dist_support == 'devel' else 'old-releases.ubuntu.com' %}
+{%   set dist_mirror = 'archive.ubuntu.com' if dist_info.support | bool or dist_info.support == 'devel' else 'old-releases.ubuntu.com' %}
 {%   if dist_support == 'devel' %}
 {%     set dist_pocket = None %}
 {%   else %}
