@@ -75,6 +75,6 @@ metareleases_info:
   - name: Kinetic Kudu
     version: '22.10'
     date: Thu, 20 October 2022 22:10:00 UTC
-    support: devel
+    support: true
 
 metareleases: []
