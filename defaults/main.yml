@@ -76,5 +76,9 @@ metareleases_info:
     version: '22.10'
     date: Thu, 20 October 2022 22:10:00 UTC
     support: true
+  - name: Lunar Lobster
+    version: '23.04'
+    date: Thu, 20 April 2023 23:04:00 UTC
+    support: false
 
 metareleases: []
